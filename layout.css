@@ -73,4 +73,12 @@ body {
   background-color: #f1f1f1;
 }
 
+#flying-image {
+  display: none;
+  position: absolute;
+}
+
+
+
+
 

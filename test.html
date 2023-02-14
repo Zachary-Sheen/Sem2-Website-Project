@@ -8,28 +8,74 @@
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="mb-auto">
       <div>
-        <h3 class="float-md-start mb-0" style = "padding-right:40px">Name of website</h3>
+        <h3 class="float-md-start mb-0" style = "padding-right:40px">LP</h3>
         <nav class="nav nav-masthead justify-content-center float-md-end">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
           <a href="#" class = "nav-link" id="dropdownMenuButton">Games</a>
           <!-- <a class="nav-link" href="#">Contact</a> -->
         </nav>
       </div>
-    </header>
-  
+    </header> 
     <main class="px-3">
       <h1>Semester 2 Project</h1>
       <p class="lead">Play some games and try out the Lorem Picsum api button!</p>
       <p class="lead">
-        <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Use the Lorem Picsum!</a>
+        <a id="fly" href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Use the Lorem Picsum!</a> 
+        <img id="flying-image" src="https://picsum.photos/200" alt="Flying Image" style = "display:none">
       </p>
     </main>
+    
+
+
   
     <footer class="mt-auto text-white-50">
-      <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a></p>
+      <p>Made By <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a></p>
     </footer>
   </div>
+    <script>
+      const fly = document.getElementById("fly");
+      const flyingImage = document.getElementById("flying-image");
+      var counter = 0;
+       fly.addEventListener("click", function() {
+        if (flyingImage.style.display === "block") {
+          flyingImage.style.display = "none";
+          fly.innerHTML = "Use the lorem picsum";
+        }
+         else {
+          flyingImage.style.display = "block";
+          fly.innerHTML = "Stop the lorem picsum";
+          if(counter == 0){
+        let x = Math.floor(Math.random() * window.innerWidth);
+        let y = Math.floor(Math.random() * window.innerHeight);
+        let xSpeed = 5;
+        let ySpeed = 5;
+        flyingImage.style.left = x + "px";
+        flyingImage.style.top = y + "px";
 
+        
+        setInterval(function() {
+          x += xSpeed;
+          y += ySpeed;
+          flyingImage.style.left = x + "px";
+          flyingImage.style.top = y + "px";
+          let link1 = 200+Math.floor(Math.random()*30)
+          let link2 = 200+Math.floor(Math.random()*30)
+          
+            if (x + flyingImage.offsetWidth >= window.innerWidth || x <= 0) {
+              xSpeed = -xSpeed;
+              flyingImage.src ="https://picsum.photos/"+link1;
+              //figure out how to make them all not be the same image
+            }
+            if (y + flyingImage.offsetHeight >= window.innerHeight || y <= 0) {
+              ySpeed = -ySpeed;
+              flyingImage.src ="https://picsum.photos/"+link2;
+            }
+          }, 50);
+        }
+      }
+      counter++}
+        );
+    </script>
   
   
   
