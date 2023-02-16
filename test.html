@@ -11,12 +11,12 @@
         <h3 class="float-md-start mb-0" style = "padding-right:40px">LP</h3>
         <nav class="nav nav-masthead justify-content-center float-md-end">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
-          <a href="#" class = "nav-link" id="dropdownMenuButton">Games</a>
+          <a href="#" class = "nav-link" id="dropdownMenuButton" onclick = startGame()>Games</a>
           <!-- <a class="nav-link" href="#">Contact</a> -->
         </nav>
       </div>
     </header> 
-    <main class="px-3">
+    <main class="px-3" id = "main">
       <h1>Semester 2 Project</h1>
       <p class="lead">Play some games and try out the Lorem Picsum api button!</p>
       <p class="lead">
@@ -24,12 +24,16 @@
         <img id="flying-image" src="https://picsum.photos/200" alt="Flying Image" style = "display:none">
       </p>
     </main>
+
+    <canvas id = "canvas-game" style = "display:none">
+
+    </canvas>
     
 
 
   
     <footer class="mt-auto text-white-50">
-      <p>Made By <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a></p>
+      <p>Made with <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a></p>
     </footer>
   </div>
     <script>
@@ -75,6 +79,72 @@
       }
       counter++}
         );
+
+        function createStars() {
+          for (let i = 0; i < 50; i++) {
+            const star = document.createElement("div");
+            star.classList.add("star");
+            star.style.left = Math.random() * window.innerWidth + "px";
+            star.style.top = Math.random() * window.innerHeight + "px";
+            star.style.width = Math.random() * 10 + 5 + "px";
+            star.style.height = star.style.width;
+            star.style.animationDelay = Math.random() + "s";
+            document.body.appendChild(star);
+          }
+        }
+        const game = document.getElementById('canvas-game');
+        const c = game.getContext('2d');
+
+        function startGame(){
+          createStars();
+          document.getElementById("main").style.display = "none";
+          game.style.display = "block";
+          c.fillStyle = "white";
+          c.fillRect(0,0,game.width,game.height);
+          game.style = "px-3"
+          game.width = 300;
+          game.height = 200;
+          const player1 = new Player(20,130,10,'green');
+          const player2 = new Player(270,130,10,'blue');
+          player1.draw();
+          player2.draw();
+          console.log(player1);
+          console.log(player2);
+        }
+
+        class Player{
+          constructor(x, y, radius, color){
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.color = color;
+          }
+          
+          draw(){
+            //https://www.youtube.com/watch?v=eI9idPTT0c4 tutorial
+            //player
+            c.beginPath();
+            c.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+            c.fillStyle = this.color;
+            c.fill();
+            //body parts
+            c.beginPath();
+            c.moveTo(this.x, this.y+20);
+            c.lineTo(this.x, this.y+10);
+            c.lineTo(this.x-5, this.y+25);
+            c.lineTo(this.x-5, this.y+25);
+            c.moveTo(this.x, this.y+10);
+            c.lineTo(this.x+5, this.y+25);
+            c.moveTo(this.x, this.y+20);
+            c.lineTo(this.x-5, this.y+40);
+            c.moveTo(this.x, this.y+20);
+            c.lineTo(this.x+5, this.y+40);
+            c.strokeStyle = this.color;
+            c.lineWidth = 2;
+            c.stroke();
+
+          }
+        }
     </script>
   
   
