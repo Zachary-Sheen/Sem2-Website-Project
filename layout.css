@@ -95,6 +95,26 @@ body {
     opacity: 0.5;
   }
 }
+#countdown-container {
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size:60pt;
+}
+.hidden1 {
+  display: none;
+  top:25%;
+  left:25%
+}
+.hidden2 {
+  display: none;
+  top:25%;
+  left:75%
+}
+
+
+
 
 
 

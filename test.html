@@ -11,11 +11,13 @@
         <h3 class="float-md-start mb-0" style = "padding-right:40px">LP</h3>
         <nav class="nav nav-masthead justify-content-center float-md-end">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
-          <a href="#" class = "nav-link" id="dropdownMenuButton" onclick = startGame()>Games</a>
+          <a href="#" class = "nav-link" id="dropdownMenuButton" onclick = startGame();countdown()>Games</a>
           <!-- <a class="nav-link" href="#">Contact</a> -->
         </nav>
       </div>
     </header> 
+
+
     <main class="px-3" id = "main">
       <h1>Semester 2 Project</h1>
       <p class="lead">Play some games and try out the Lorem Picsum api button!</p>
@@ -24,6 +26,16 @@
         <img id="flying-image" src="https://picsum.photos/200" alt="Flying Image" style = "display:none">
       </p>
     </main>
+
+
+    <div id="countdown-container">
+      <!-- Add an element to display the countdown timer -->
+      <span id="countdown-timer"></span>
+    </div>
+
+    <div><img id = "gun-img" src = "a11de2116e5fb67-removebg-preview (1).png" style = "display:none"></div>
+    <div><img id = "gun-img2" src = "image.png" style = "display:none"></div>
+
 
     <canvas id = "canvas-game" style = "display:none">
 
@@ -40,6 +52,63 @@
       const fly = document.getElementById("fly");
       const flyingImage = document.getElementById("flying-image");
       var counter = 0;
+      // const rightKeys = [
+      //      'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal',
+      //      'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight',
+      //      'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote',
+      //      'Backslash', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash',
+      //      'Spacebar', 'AltRight', 'ContextMenu', 'ControlRight'
+      //   ];
+      // const leftKeys = [
+      //       'Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6',
+      //       'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT',
+      //       'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG','ShiftLeft',
+      //       'KeyZ', 'KeyX', 'KeyC', 'KeyV',
+      //       'ControlLeft', 'MetaLeft', 'AltLeft']
+      const leftKeys = [
+        "q","w","e","r","t",
+        "a","s","d","f",
+        "z","x","c","v"
+      ]
+      const rightKeys = [
+        "y","u","i","o","p",
+        "g","h","j","k","l",
+        "b","n","m"
+      ];
+        const game = document.getElementById('canvas-game');
+        const c = game.getContext('2d');
+      function countdown(){
+          var timeleft = 5;
+          var counter = 0;
+          const countdownTimer = document.getElementById('countdown-timer');
+              var countdown = setInterval(function(){
+              countdownTimer.innerHTML = timeleft;
+              timeleft--;
+              if(timeleft < 0){
+                console.log(counter);
+                if(counter == 0){
+                  console.log('run');
+                  drawText();
+                }
+                counter++;
+                clearInterval(countdown);
+                // var message = document.createElement("div");
+                // message.textContent = "GO!";
+                // message.style.position = "absolute";
+                // message.style.top = "0";
+                // message.style.left = "0";
+                countdownTimer.innerHTML = "GO!"
+              }
+            }, 1000);
+          }
+
+        document.addEventListener('keydown', event => {
+          if (leftKeys.includes(event.code)) {
+            // Handle left side key press
+          } else if (rightKeys.includes(event.code)) {
+            // Handle right side key press
+          }
+        });
        fly.addEventListener("click", function() {
         if (flyingImage.style.display === "block") {
           flyingImage.style.display = "none";
@@ -81,7 +150,7 @@
         );
 
         function createStars() {
-          for (let i = 0; i < 50; i++) {
+          for (let i = 0; i < 100; i++) {
             const star = document.createElement("div");
             star.classList.add("star");
             star.style.left = Math.random() * window.innerWidth + "px";
@@ -92,9 +161,7 @@
             document.body.appendChild(star);
           }
         }
-        const game = document.getElementById('canvas-game');
-        const c = game.getContext('2d');
-
+        
         function startGame(){
           createStars();
           document.getElementById("main").style.display = "none";
@@ -105,7 +172,7 @@
           game.width = 300;
           game.height = 200;
           const player1 = new Player(20,130,10,'green');
-          const player2 = new Player(270,130,10,'blue');
+          const player2 = new Player(270,130,10,'orange');
           player1.draw();
           player2.draw();
           console.log(player1);
@@ -142,9 +209,91 @@
             c.strokeStyle = this.color;
             c.lineWidth = 2;
             c.stroke();
-
+            // //gun
+            // var img = document.getElementById("gun-img");
+            // img.style.width = '5%';
+            // img.style.height = '7%';
+            // img.style.display = "block";
+            // img.style.position = 'absolute';
+            // img.style.top = '58%';
+            // img.style.left = '32%';
+            // //gun2
+            // var img2 = document.getElementById("gun-img2");
+            // img2.style.width = '5%';
+            // img2.style.height = '7%';
+            // img2.style.display = "block";
+            // img2.style.position = 'absolute';
+            // img2.style.top = '58%';
+            // img2.style.left = '61.5%';
           }
         }
+        class Projectile{
+          constructor(x,y,radius,color,velocity){
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.color = color;
+            this.velocity = velocity;
+          }
+          draw(){
+            c.beginPath();
+            c.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+            c.fillStyle = this.color;
+            c.fill();
+          }
+        }
+        var randRightKey = rightKeys[Math.floor(Math.random()*rightKeys.length)];
+        var randLeftKey = leftKeys[Math.floor(Math.random()*leftKeys.length)];
+
+        function drawText() {
+          c.font = "20px Arial";
+          c.fillStyle = "white";
+          c.fillText(randLeftKey, 15, 30);
+          c.fillText(randRightKey,267,30);
+        }
+
+        function GenerateNewRandom(){
+          randRightKey = rightKeys[Math.floor(Math.random()*rightKeys.length)];
+          randLeftKey = leftKeys[Math.floor(Math.random()*leftKeys.length)];
+        }
+        var rightCounter = 0;
+        var leftCounter = 0;
+        addEventListener("keydown",function(event)
+        {
+          const key = event.key;
+          // c.fillText()
+          console.log(randLeftKey);
+          console.log(randRightKey);
+          console.log(key);
+          console.log(key==randLeftKey,"   ",key==randRightKey);
+          
+
+          if(key == randLeftKey){
+            leftCounter++;
+            c.clearRect(0, 0, game.width, 70);
+            c.font = "40px Arial";
+            c.fillStyle = "white"; 
+            c.fillText(leftCounter,100,70);
+            c.fillText("-",140,70);
+            c.fillText(rightCounter,180,70);
+            GenerateNewRandom();
+            countdown();
+          }
+
+          else if(key == randRightKey){
+            rightCounter++;
+            c.clearRect(0, 0, game.width, 70);
+            c.font = "40px Arial";
+            c.fillStyle = "white"; 
+            c.fillText(leftCounter,100,70);
+            c.fillText("-",140,70);
+            c.fillText(rightCounter,180,70);
+            GenerateNewRandom();
+            countdown();
+          }
+          console.log(leftCounter,"    ",rightCounter)
+          
+        });
     </script>
   
   
